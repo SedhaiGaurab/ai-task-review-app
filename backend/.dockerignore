@@ -1,0 +1,11 @@
+venv
+__pycache__
+.pytest_cache
+*.pyc
+.env
+*.db
+.git
+.gitignore
+README.md
+api-tests.http
+tests
