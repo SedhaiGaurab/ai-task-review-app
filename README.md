@@ -2,6 +2,15 @@
 
 A small React and FastAPI application for creating tasks, tracking their status, deleting tasks, and requesting an AI review through OpenRouter.
 
+## Technologies
+
+- React 19 and Vite for the frontend
+- FastAPI and Uvicorn for the backend API
+- SQLAlchemy with SQLite for data storage
+- OpenRouter through the OpenAI-compatible Python SDK for AI analysis
+- Docker Compose and Nginx for the containerized setup
+- Pytest for automated tests
+
 ## Docker setup
 
 Install and start Docker Desktop. Then copy `backend/.env.example` to `backend/.env` and set the real OpenRouter key:
@@ -51,6 +60,10 @@ npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173). The frontend uses `http://127.0.0.1:8000` by default. Set `VITE_API_URL` if the backend uses another address.
+
+## Approach
+
+The frontend uses a focused API client and a small amount of React state. It loads tasks, filters them by status, and updates the screen after creating, changing, analysing, or deleting a task. The backend separates task routes from AI analysis routes, validates request data with Pydantic models, stores records with SQLAlchemy, and keeps the OpenRouter key on the server.
 
 ## How it works
 
@@ -129,3 +142,18 @@ python -m pytest -q
 ```
 
 The tests use a separate SQLite database and mock AI responses, so they do not change development data or use OpenRouter credits.
+
+## Improvements with more time
+
+- Add authentication and user-specific task lists.
+- Add editing for task title, description, and priority.
+- Add search and pagination for larger task lists.
+- Add database migrations instead of creating tables at startup.
+- Add frontend component and browser tests.
+- Add retries, timeouts, and structured logging around AI requests.
+
+## AI tools and verification
+
+GitHub Copilot in VS Code was used as an AI coding assistant. Suggestions were reviewed and adapted to the project rather than accepted without checking.
+
+Correctness was checked with the backend Pytest suite, including task CRUD operations, valid and invalid status updates, successful AI responses, and AI failure handling. The frontend was checked with `npm run build` and `npm run lint`. The API was also tested manually with curl, including task creation and a real OpenRouter analysis. Finally, `docker compose config --quiet` and a Docker smoke test verified the container setup.
